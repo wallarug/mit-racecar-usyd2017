@@ -35,7 +35,32 @@ All software that could be required for testing or using any of the components o
 Special wireless / bluetooth driver for communicating between an RPi and Jetson boards.  This creates an air gap between the two devices for safety.
 
 
-## Wiki Resources ##
+# Hardware List #
+
+**Computer**
+
+Jetson TX2 Developer Kit
+
+Raspberry Pi Model B 3
+
+
+**Sensors**
+
+LIDAR (Scanse Sweep) from SparkFun
+
+Stereo Vision Camera (Stereo Labs Zed)
+
+Vision Camera (FLIR Blackfly 2.3MP)
+
+
+**Motors**
+
+FOCBOX VESC-X Motor Controller
+
+Velineon 3500 Brushless Motor
+
+
+# Wiki Resources #
 
 [Team Member List (all teams)](https://bitbucket.org/usydmitplatform2017/mit-racecar-usyd/wiki/Teams%20and%20Members)
 
@@ -46,7 +71,7 @@ Special wireless / bluetooth driver for communicating between an RPi and Jetson 
 
 
 
-## Assistance ##
+# Assistance #
 If you require assistance with this repository, please contact Cian Byrne (@wallarug) via email:  cbyr2401@uni.sydney.edu.au
 
 Racecar backwards is Racecar
