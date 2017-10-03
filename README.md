@@ -68,6 +68,8 @@ Velineon 3500 Brushless Motor
 
 [Resource Links](https://bitbucket.org/usydmitplatform2017/mit-racecar-usyd/wiki/Resources)
 
+[Location of Parts](https://bitbucket.org/usydmitplatform2017/mit-racecar-usyd/wiki/Parts%20Location%20Matrix)
+
 
 
 
