@@ -9,6 +9,6 @@ while True:
     data = ser.read()
     print(data)
     din = input("Please enter a message: ")
-    ser.write(din)
+    ser.write(din.encode())
 
 ser.close()
