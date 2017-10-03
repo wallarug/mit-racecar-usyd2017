@@ -14,3 +14,11 @@ To get this to work on the Raspberry Pi, follow these steps:
 [How to set up Pi for SSP](https://github.com/engn1931z/lab4)
 
 [How to list serial ports](https://www.raspberrypi.org/forums/viewtopic.php?f=50&t=31141)
+
+```
+Pi BT Serial Port: /dev/ttyAMA0
+```
+
+```
+pip3 install pyserial
+```
