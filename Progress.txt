@@ -1,0 +1,14 @@
+1)Correctly flashed the firmware and XML files(DO NOT CHANGE THIS)
+2)JStest is installed and there is a jstest-gtk for GUI representation(This is for using the controller)
+3)JStest by itself did not install (but step 2 worked)
+4)Catkinws is created on Jetson2 in the doccument folder and we renamed to racecar-ws
+5)Began installig ROS tx2
+6)AI-Team ZED SKD installed on both Jetsons (Python version of ZED SKD working on Jetson#1)
+7)Ai-Team created a python script to merge the ZED camera input and Depth image into a single image which can now be fed into a neural network. From what we found, the depth image is aligned to the left-side ZED camera image. Image<r,g,b,depth>
+8)AI-Team have a neural network ready to train with images in the above 7) format. We are meeting Sunday 9am in SIT to capture training data on the carpark rooftop. We have not distinguished a way we are going to classify the images by.
+9)catkin init in ZED_wrapper/src folder(This is working on Jetson2)
+10)Udated the Kernel on jetson2 
+11)Ran All the BLDC Steps again(Able to control the car using PS4 controller)
+12)Axis are configured with right joystick for steering and left joystick for throttle
+
+Date :05/10/2017
