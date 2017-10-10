@@ -4,7 +4,7 @@ This area of the repo is reserved for direct copies of Jetson Hacks github repos
 
 GitHub Link: [Jetson Hacks](https://github.com/jetsonhacks/)
 
-Last Pulled:  10/10/2017 10:25 PM
+Last Pulled:  10/10/2017 10:28 PM
 
 ## buildJetsonTX2Kernel ##
 
