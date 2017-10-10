@@ -14,7 +14,7 @@ All the pre-written code written by the MIT 6.141 class.  This is here as a copy
 
 * vesc: contains drivers and software to make the VESC work with the MIT RACECAR.
 
-Last Pulled:  10/10/2017 10:15 PM
+Last Pulled:  10/10/2017 10:20 PM
 
 
 ## hardware ##
@@ -37,7 +37,7 @@ GitHub Link: [MIT/racecar](https://github.com/mit-racecar/racecar)
 git clone https://github.com/mit-racecar/racecar.git
 ```
 
-## racecar-simulator ##
+## [not included 22.79 MB] racecar-simulator ##
 
 We have not looked at his yet, but it appears to be a simulator or substitute to driving the car during the training phase.
 
