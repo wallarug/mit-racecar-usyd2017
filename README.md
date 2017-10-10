@@ -10,9 +10,6 @@ This repository includes all the software and documentation required for the Uni
 
 * manuals: contains instruction manuals for the Jetson, VESC and other devices.
 
-## installBLDC ##
-
-Linux installer package for installing the tool that flashes and uploads different configurations to the VESC controller.
 
 ## mit-racecar ##
 
@@ -26,9 +23,6 @@ All the pre-written code written by the MIT 6.141 class.  This is here as a copy
 
 * vesc: contains drivers and software to make the VESC work with the MIT RACECAR.
 
-## software-packages ##
-
-All software that could be required for testing or using any of the components of the car.  This includes windows compiled binaries.
 
 ## wdriver ##
 
@@ -58,6 +52,8 @@ Vision Camera (FLIR Blackfly 2.3MP)
 FOCBOX VESC-X Motor Controller
 
 Velineon 3500 Brushless Motor
+
+
 
 
 # Wiki Resources #
