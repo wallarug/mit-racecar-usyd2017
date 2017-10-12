@@ -59,16 +59,21 @@ def main():
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
+            print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
             print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
-            print('depth image: ')
-            print(depth_for_display)
+            data=image.get_data()
+            print('image:')
+            print(data.shape)
+            print(data)
+            # print('depth image: ')
+            # print(depth_for_display)
 
-            # cv2.imshow("ZED", image.get_data())
-            
+            cv2.imshow("ZED", image.get_data())
+            cv2.waitKey(0)
             cv2.imshow("ZED", depth_for_display.get_data())
-
-            time.sleep(3)
+            cv2.waitKey(0)
+            
         else:
             print('image collection failed')
         # Increment the loop
