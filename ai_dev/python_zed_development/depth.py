@@ -52,6 +52,9 @@ def main():
             data=cv2.resize(data,(square_image_size,square_image_size))
             depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
 
+            data=data[:][:][0:2]
+            depth_data=depth_data[:][:][0]
+
             print('image:')
             data_shape=data.shape
             print(data_shape)
@@ -78,7 +81,12 @@ def main():
                         # Show pixel values
                         # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
                         # print('depth pixel {}'.format(depth_data[row][col][0]))
-                        pixel=data[row][col][0:2]+[depth_data[row][col][0]]
+                        pixel=[
+                            data[row][col][0],
+                            data[row][col][1],
+                            data[row][col][2],
+                            depth_data[row][col]
+                            ]
                         # output data is: red, green, blue, depth
                         output_data[row].append(pixel)
 
