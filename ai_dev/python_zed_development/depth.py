@@ -22,6 +22,7 @@ import pyzed.camera as zcam
 import pyzed.defines as sl
 import pyzed.types as tp
 import pyzed.core as core
+import cv2
 import math
 import numpy as np
 
