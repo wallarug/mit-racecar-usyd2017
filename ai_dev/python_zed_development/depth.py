@@ -62,7 +62,7 @@ def main():
             print('depth image: ')
             print(depth_for_display)
 
-            # cv2.imshow("ZED", image.get_data())
+            cv2.imshow("ZED", image.get_data())
             
             # cv2.imshow("ZED", depth_for_display.get_data())
         else:
