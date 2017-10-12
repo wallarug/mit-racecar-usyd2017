@@ -48,8 +48,7 @@ def main():
     i = 0
     num_images=1
     image = core.PyMat()
-    depth = core.PyMat()
-    point_cloud = core.PyMat()
+    depth_for_display = core.PyMat()
 
     while i < num_images:
         # A new image is available if grab() returns PySUCCESS
@@ -63,11 +62,9 @@ def main():
             print('depth image: ')
             print(depth_for_display)
 
-            # Get and print distance value in mm at the center of the image
-            # We measure the distance camera - object using Euclidean distance
-            x = round(image.get_width() / 2)
-            y = round(image.get_height() / 2)
-
+            # cv2.imshow("ZED", image.get_data())
+            
+            # cv2.imshow("ZED", depth_for_display.get_data())
         else:
             print('image collection failed')
         # Increment the loop
