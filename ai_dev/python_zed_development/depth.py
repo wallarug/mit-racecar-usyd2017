@@ -66,7 +66,7 @@ def main():
                 output_data=[]
                 start_time=time.time()
                 for row in range(depth_shape[0]):
-                    output.append([])
+                    output_data.append([])
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
                         
