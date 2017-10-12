@@ -85,11 +85,6 @@ def merge_images(data,depth):
     data_shape=data.shape
     depth_shape=depth.shape
 
-    # print('image: {}'.format(data_shape))
-    # print(data)
-    # print('depth: {}'.format(depth_shape))
-    # print(depth)
-
     # Merge the depth and rgb image into one.
     if data_shape == depth_shape:
         output_data=[]
@@ -97,10 +92,6 @@ def merge_images(data,depth):
             output_data.append([])
             for col in range(depth_shape[1]):
                 # join the rgb data with the depth data
-                
-                # Show pixel values
-                # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
-                # print('depth pixel {}'.format(depth[row][col][0]))
 
                 # Create the pixel to output
                 pixel=[
@@ -150,9 +141,24 @@ def load_and_merge(num):
 
     return elapsed_time
 
+def check_merge():
+    import pickle
+    #loading from file
+    image_rgb = pickle.load( open( 'image_rgb0.pickle', "rb" ) )
+    image_depth = pickle.load( open( 'image_depth0.pickle', "rb" ) )
+    import numpy as np
+    from matplotlib import pyplot as plt #note there is an opencv image viewing alternative called imshow and waitkey
+    merged=merge_images(image_rgb,image_depth)
+
+    fig, ax = plt.subplots()
+    ax.imshow(merged)
+    plt.show()
+
 # main()
 # load_and_display("image_depth0.pickle")
+check_merge()
 
 import statistics
 times = [load_and_merge(i) for i in range(20)]
 print('avg time: {0:.4f}s'.format(statistics.mean(times)))
+
