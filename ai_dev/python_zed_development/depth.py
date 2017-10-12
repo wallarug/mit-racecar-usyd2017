@@ -29,11 +29,12 @@ def main():
 
     # Capture 50 images and depth, then stop
     i = 0
-    num_images=20
+    num_images=5
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
-    start_time=time.time()
+    print('Current mode: Capture 5 images as fast as possible.\nDo not merge the images.\nSave everything to pickle files.')
+
     while i < num_images:
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
@@ -79,10 +80,6 @@ def main():
         # Increment the loop
         i = i + 1
 
-    # Measuring time to take consecutive imgaes
-    elapsed_time=time.time()-start_time
-    print('20 image total time taken = {}s'.format(elapsed_time))
-
     # Close the camera
     zed.close()
 
@@ -91,9 +88,9 @@ def merge_images(data,depth):
     data_shape=data.shape
     depth_shape=depth.shape
 
-    print('image: {}'.format(data_shape))
+    # print('image: {}'.format(data_shape))
     # print(data)
-    print('depth: {}'.format(depth_shape))
+    # print('depth: {}'.format(depth_shape))
     # print(depth)
 
     # Merge the depth and rgb image into one.
