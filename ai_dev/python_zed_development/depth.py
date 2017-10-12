@@ -63,21 +63,24 @@ def main():
             print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
             #convert to arrays
-            data=image.get_data()
+            # data=image.get_data()
             depth_data=depth_for_display.get_data()
 
-            print('image:')
-            print(data.shape)
-            print(data)
-            
+            # print('image:')
+            # print(data.shape)
+            # print(data)
+
             print('depth:')
             print(depth_data.shape)
-            print(depth_data)
+            print(depth_data[0])
 
-            cv2.imshow("ZED", data)
-            cv2.waitKey(0)
-            cv2.imshow("ZED", depth_data)
-            cv2.waitKey(0)
+
+
+            # Display the images on screen
+            # cv2.imshow("ZED", data)
+            # cv2.waitKey(0)
+            # cv2.imshow("ZED", depth_data)
+            # cv2.waitKey(0)
 
         else:
             print('image collection failed')
