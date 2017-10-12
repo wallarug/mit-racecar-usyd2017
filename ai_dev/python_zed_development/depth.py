@@ -41,6 +41,7 @@ def main():
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
             
+            # Show image dimensions
             print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
             print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
@@ -48,57 +49,27 @@ def main():
             data=image.get_data()
             depth_data=depth_for_display.get_data()
 
+            # Convert images to smaller square images
             square_image_size=500
             data=cv2.resize(data,(square_image_size,square_image_size))
             depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
-
-            data=data[:][:][0:2]
-            depth_data=depth_data[:][:][0:0]
-
-            print('image:')
-            data_shape=data.shape
-            print(data_shape)
-            print(data)
-
-            print('depth:')
-            depth_shape=depth_data.shape
-            print(depth_shape)
-            # print(depth_data)
 
             # Display the images on screen
             # cv2.imshow("ZED", data)
             # cv2.waitKey(0)
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
-            if data_shape == depth_shape:
-                output_data=[]
-                start_time=time.time()
-                for row in range(depth_shape[0]):
-                    output_data.append([])
-                    for col in range(depth_shape[1]):
-                        # join the rgb data with the depth data
-                        
-                        # Show pixel values
-                        # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
-                        # print('depth pixel {}'.format(depth_data[row][col][0]))
-                        pixel=[
-                            data[row][col][0],
-                            data[row][col][1],
-                            data[row][col][2],
-                            depth_data[row][col][0]
-                            ]
-                        # output data is: red, green, blue, depth
-                        output_data[row].append(pixel)
 
-                elapsed_time=time.time()-start_time
+            start_time=time.time()
+            pickle.dump(data,open( 'image_rgb{}.pickle'.format(i), 'wb' ))
+            pickle.dump(depth_data,open( 'image_depth{}.pickle'.format(i), 'wb' ))
+            elapsed_time=time.time()-start_time
+            print('pickle time taken = {}'.format(elapsed_time))
 
-                print('new data for neural network')
-                print('time taken = {}'.format(elapsed_time))
-
-                # save the pickle
-                pickle.dump(output_data,open( 'imagedepth{}.pickle'.format(i), 'wb' ))
-            else:
-                print('image capture settings wrong')
+            start_time=time.time()
+            merge_images(data,depth_data)
+            elapsed_time=time.time()-start_time
+            print('merge time taken = {}'.format(elapsed_time))
         else:
             print('image collection failed')
         # Increment the loop
@@ -106,6 +77,45 @@ def main():
 
     # Close the camera
     zed.close()
+
+def merge_images(data,depth):
+    # Store the image dimensions
+    data_shape=data.shape
+    depth_shape=depth.shape
+
+    print('image: {}'.format(data_shape))
+    # print(data)
+    print('depth: {}'.format(depth_shape))
+    # print(depth)
+
+    # Merge the depth and rgb image into one.
+    if data_shape == depth_shape:
+        output_data=[]
+        for row in range(depth_shape[0]):
+            output_data.append([])
+            for col in range(depth_shape[1]):
+                # join the rgb data with the depth data
+                
+                # Show pixel values
+                # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
+                # print('depth pixel {}'.format(depth[row][col][0]))
+
+                # Create the pixel to output
+                pixel=[
+                    data[row][col][0],
+                    data[row][col][1],
+                    data[row][col][2],
+                    depth[row][col][0]
+                    ]
+                
+                # output data is: red, green, blue, depth
+                output_data[row].append(pixel)
+
+        return output_data
+    else:
+        #images are different sizes and could not be merged
+        print('image capture settings wrong')
+        return None
 
 if __name__ == "__main__":
     main()
