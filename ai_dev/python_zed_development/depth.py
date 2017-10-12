@@ -70,7 +70,7 @@ def main():
                         print('depth pixel {}'.format(depth_data[row][col][0]))
                         print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
                         # output data is: red, green, blue, depth
-                        depth_data=[
+                        depth_data[row][col]=[
                             data[row][col][0],
                             data[row][col][1],
                             data[row][col][2],
