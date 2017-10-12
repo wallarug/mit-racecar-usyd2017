@@ -62,32 +62,34 @@ def main():
             # cv2.waitKey(0)
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
-
             if data_shape == depth_shape:
+                output_data=[]
                 start_time=time.time()
                 for row in range(depth_shape[0]):
+                    output.append([])
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
                         
                         # Show pixel values
                         # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
                         # print('depth pixel {}'.format(depth_data[row][col][0]))
-
-                        # output data is: red, green, blue, depth
-                        depth_data[row][col]=[
+                        pixel=[
                             data[row][col][0],
                             data[row][col][1],
                             data[row][col][2],
                             depth_data[row][col][0]
                             ]
+                        # output data is: red, green, blue, depth
+                        output_data[row].append(pixel)
+
                 elapsed_time=time.time()-start_time
 
                 print('new data for neural network')
-                print(depth_data.shape)
+                print(output_data.shape)
                 print('time taken = {}'.format(elapsed_time))
 
                 # save the pickle
-                pickle.dump(depth_data,open( 'depth.pickle', 'wb' ))
+                pickle.dump(output_data,open( 'depth.pickle', 'wb' ))
             else:
                 print('image capture settings wrong')
         else:
