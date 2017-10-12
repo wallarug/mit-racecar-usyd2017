@@ -58,8 +58,15 @@ def main():
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve depth map. Depth is aligned on the left image
             zed.retrieve_measure(depth, sl.PyMEASURE.PyMEASURE_DEPTH)
+            # Retrieve colored point cloud. Point cloud is aligned on the left image.
+            zed.retrieve_measure(point_cloud, sl.PyMEASURE.PyMEASURE_XYZRGBA)
 
-            print(depth)
+            # Get and print distance value in mm at the center of the image
+            # We measure the distance camera - object using Euclidean distance
+            x = round(image.get_width() / 2)
+            y = round(image.get_height() / 2)
+            err, point_cloud_value = point_cloud.get_value(x, y)
+            print(point_cloud_value)
         else:
             print('image collection failed')
         # Increment the loop
