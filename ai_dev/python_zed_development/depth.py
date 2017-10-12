@@ -61,11 +61,20 @@ def main():
             # Retrieve colored point cloud. Point cloud is aligned on the left image.
             zed.retrieve_measure(point_cloud, sl.PyMEASURE.PyMEASURE_XYZRGBA)
 
+            print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
+
             # Get and print distance value in mm at the center of the image
             # We measure the distance camera - object using Euclidean distance
             x = round(image.get_width() / 2)
             y = round(image.get_height() / 2)
             err, point_cloud_value = point_cloud.get_value(x, y)
+
+            distance = math.sqrt(point_cloud_value[0] * point_cloud_value[0] +
+                                 point_cloud_value[1] * point_cloud_value[1] +
+                                 point_cloud_value[2] * point_cloud_value[2])
+
+            print(distance)
+
             print(point_cloud_value)
         else:
             print('image collection failed')
