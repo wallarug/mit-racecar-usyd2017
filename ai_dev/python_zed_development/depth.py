@@ -81,7 +81,8 @@ def main():
     zed.close()
 
 def merge_images(data,depth):
-    import numpy as np
+    import cv2
+
     # Store the image dimensions
     data_shape=data.shape
     depth_shape=depth.shape
@@ -90,28 +91,24 @@ def merge_images(data,depth):
     if data_shape == depth_shape:
         output_data=[]
 
-        # do we really need to calculate every pixel? very slow.
-        # this below is just vector addition and extremely quick
-        # we should see if theres a built in way to operate this across vector rows or columns at once
-        output_data = data + depth[0]
+        # Split the data (left image) into its r,g,b,alpha form respectively
+        # Where alpha = visual transparency(0-255)
+        red, green, blue, alpha = cv2.split(data)
 
+        # Split the depth image into r,g,b,alpha form
+        depth1, depth2, depth3, depth_alpha = cv2.split(depth)
+
+        # merge the original r,g,b with any of depth (as they are all the same in greyscale)
+        # visually to a human this will look like a transparent photo
+        # but this is encoding depth information into the vector for the neural network
+        output_data = cv2.merge((red, green, blue, depth1))
+
+#        original form just incase
 #        for row in range(depth_shape[0]):
-#            output_data.append([])
 #            for col in range(depth_shape[1]):
-                # join the rgb data with the depth data
-                # data[row][col][3]=depth[row][col][0] #keep only the first value out of 4 depth values
-                # Create the pixel to output
-#                pixel=[
-#                    data[row][col][0], #keep the first 3 values of the rgb data
-#                    data[row][col][1],
-#                    data[row][col][2],
-#                    depth[row][col][0] #keep only the first value out of 4 depth values
-#                    ]
+#               data[row][col][3]=depth[row][col][0] #keep only the first value out of 4 depth values
 
-                # output data is: red, green, blue, depth
-#                output_data[row].append(pixel)
-
-        return data
+        return output_data
     else:
         #images are different sizes and could not be merged
         print('image capture settings wrong')
