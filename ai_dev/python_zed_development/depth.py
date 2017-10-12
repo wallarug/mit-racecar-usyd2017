@@ -33,10 +33,10 @@ def main():
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
+    start_time=time.time()
     while i < num_images:
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
-            start_time=time.time()
             # Retrieve left image
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve left depth
@@ -74,14 +74,14 @@ def main():
             # elapsed_time=time.time()-start_time
             # print('merge time taken = {}'.format(elapsed_time))
             # pickle.dump(merged,open( 'image_merged{}.pickle'.format(i), 'wb' ))
-
-            # Measuring time to take consecutive imgaes
-            elapsed_time=time.time()-start_time
-            print('image time taken = {}'.format(elapsed_time))
         else:
             print('image collection failed')
         # Increment the loop
         i = i + 1
+
+    # Measuring time to take consecutive imgaes
+    elapsed_time=time.time()-start_time
+    print('20 image total time taken = {}s'.format(elapsed_time))
 
     # Close the camera
     zed.close()
