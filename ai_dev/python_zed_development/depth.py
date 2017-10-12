@@ -64,7 +64,7 @@ def main():
             # cv2.waitKey(0)
 
             if data_shape == depth_shape:
-                start_time=time.process_time()
+                start_time=time.time()
                 for row in range(depth_shape[0]):
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
@@ -80,12 +80,12 @@ def main():
                             data[row][col][2],
                             depth_data[row][col][0]
                             ]
-                elapsed_time=time.process_time()-start_time
+                elapsed_time=time.time()-start_time
 
                 print('new data for neural network')
                 print(depth_data.shape)
                 print('time taken = {}'.format(elapsed_time))
-                
+
                 # save the pickle
                 pickle.dump(depth_data,open( 'depth.pickle', 'wb' ))
             else:
