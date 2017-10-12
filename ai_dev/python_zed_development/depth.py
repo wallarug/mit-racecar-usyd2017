@@ -67,7 +67,10 @@ def main():
                 for row in range(depth_shape[0]):
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
-                        depth_data=data[row][col][0:2]+depth_data[row][col][0]
+                        print('depth pixel {}'.format(depth_data[row][col][0]))
+                        print('r {} g {} b {}'.format(depth_data[row][col][0],depth_data[row][col][1],depth_data[row][col][2]))
+                        # depth_data=data[row][col][0:2]+depth_data[row][col][0]
+                        break
                 print('new data for neural network')
                 print(depth_data.shape)
                 print(depth_data)
