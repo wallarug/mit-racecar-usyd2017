@@ -52,6 +52,13 @@ try:
             buts[i] = j.get_button(i)
             output += "button {0} {1}\n".format(i, buts[i])
 
+        #   IMPROVEMENT:  Only query the axes that you want (will reduce
+        #                 processing time).  
+        #   IMPROVEMENT:  Do it in-line.  No real need for a "for loop" here
+        #                 this can be done by just getting the relevant
+        #                 axes.
+        #   IMPROVEMENT:  remove buttons, you don't need them afaik
+
         # display the axis
         print(output)
 
