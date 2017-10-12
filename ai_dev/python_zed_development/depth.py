@@ -40,12 +40,17 @@ def main():
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
+            
             print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
             print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
             #convert to arrays
             data=image.get_data()
             depth_data=depth_for_display.get_data()
+
+            square_image_size=500
+            data=cv2.resize(data,(square_image_size,square_image_size))
+            depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
 
             print('image:')
             data_shape=data.shape
@@ -89,7 +94,7 @@ def main():
                 print('time taken = {}'.format(elapsed_time))
 
                 # save the pickle
-                pickle.dump(output_data,open( 'depth.pickle', 'wb' ))
+                pickle.dump(output_data,open( 'imagedepth{}.pickle'.format(i), 'wb' ))
             else:
                 print('image capture settings wrong')
         else:
