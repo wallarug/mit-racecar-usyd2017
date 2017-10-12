@@ -29,21 +29,22 @@ def main():
 
     # Capture 50 images and depth, then stop
     i = 0
-    num_images=1
+    num_images=20
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
     while i < num_images:
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
+            start_time=time.time()
             # Retrieve left image
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
             
             # Show image dimensions
-            print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
-            print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
+            # print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
+            # print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
             #convert to arrays
             data=image.get_data()
@@ -60,16 +61,23 @@ def main():
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
 
-            start_time=time.time()
+            # Save Images
+            # start_time=time.time()
             pickle.dump(data,open( 'image_rgb{}.pickle'.format(i), 'wb' ))
             pickle.dump(depth_data,open( 'image_depth{}.pickle'.format(i), 'wb' ))
-            elapsed_time=time.time()-start_time
-            print('pickle time taken = {}'.format(elapsed_time))
+            # elapsed_time=time.time()-start_time
+            # print('pickle time taken = {}'.format(elapsed_time))
 
-            start_time=time.time()
-            merge_images(data,depth_data)
+            # Merge images
+            # start_time=time.time()
+            # merged = merge_images(data,depth_data)
+            # elapsed_time=time.time()-start_time
+            # print('merge time taken = {}'.format(elapsed_time))
+            # pickle.dump(merged,open( 'image_merged{}.pickle'.format(i), 'wb' ))
+
+            # Measuring time to take consecutive imgaes
             elapsed_time=time.time()-start_time
-            print('merge time taken = {}'.format(elapsed_time))
+            print('image time taken = {}'.format(elapsed_time))
         else:
             print('image collection failed')
         # Increment the loop
@@ -102,12 +110,12 @@ def merge_images(data,depth):
 
                 # Create the pixel to output
                 pixel=[
-                    data[row][col][0],
+                    data[row][col][0], #keep the first 3 values of the rgb data
                     data[row][col][1],
                     data[row][col][2],
-                    depth[row][col][0]
+                    depth[row][col][0] #keep only the first value out of 4 depth values
                     ]
-                
+
                 # output data is: red, green, blue, depth
                 output_data[row].append(pixel)
 
