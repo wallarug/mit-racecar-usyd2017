@@ -78,12 +78,7 @@ def main():
                         # Show pixel values
                         # print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
                         # print('depth pixel {}'.format(depth_data[row][col][0]))
-                        pixel=[
-                            data[row][col][0],
-                            data[row][col][1],
-                            data[row][col][2],
-                            depth_data[row][col][0]
-                            ]
+                        pixel=data[row][col][0:2]+[depth_data[row][col][0]]
                         # output data is: red, green, blue, depth
                         output_data[row].append(pixel)
 
