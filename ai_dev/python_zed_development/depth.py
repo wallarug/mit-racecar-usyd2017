@@ -68,15 +68,21 @@ def main():
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
                         print('depth pixel {}'.format(depth_data[row][col][0]))
-                        print('r {} g {} b {}'.format(depth_data[row][col][0],depth_data[row][col][1],depth_data[row][col][2]))
-                        # depth_data=data[row][col][0:2]+depth_data[row][col][0]
+                        print('r {} g {} b {}'.format(data[row][col][0],data[row][col][1],data[row][col][2]))
+                        # output data is: red, green, blue, depth
+                        depth_data=[
+                            data[row][col][0],
+                            data[row][col][1],
+                            data[row][col][2],
+                            depth_data[row][col][0]
+                            ]
                         break
                 print('new data for neural network')
                 print(depth_data.shape)
                 print(depth_data)
 
                 # save the pickle
-                pickle.dump(depth_data,'depth.pickle')
+                # pickle.dump(depth_data,'depth.pickle')
             else:
                 print('image capture settings wrong')
         else:
