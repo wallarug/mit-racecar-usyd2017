@@ -79,7 +79,7 @@ def main():
             print('image collection failed')
         # Increment the loop
         i = i + 1
-
+    print('Image capture complete')
     # Close the camera
     zed.close()
 
