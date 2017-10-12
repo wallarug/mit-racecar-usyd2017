@@ -23,6 +23,7 @@ import pyzed.defines as sl
 import pyzed.types as tp
 import pyzed.core as core
 import cv2
+import time
 import math
 import numpy as np
 
@@ -63,9 +64,11 @@ def main():
             print('depth image: ')
             print(depth_for_display)
 
-            cv2.imshow("ZED", image.get_data())
+            # cv2.imshow("ZED", image.get_data())
             
-            # cv2.imshow("ZED", depth_for_display.get_data())
+            cv2.imshow("ZED", depth_for_display.get_data())
+
+            time.sleep(3)
         else:
             print('image collection failed')
         # Increment the loop
