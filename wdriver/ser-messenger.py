@@ -4,7 +4,7 @@ import serial
 
 try:
     # update to person you are sending to:
-    ser = serial.Serial('COM5', 9600, timeout=3)
+    ser = serial.Serial('COM7', 9600, timeout=3)
 
     while True:
         data = ser.read(size=100)
