@@ -1,15 +1,12 @@
-import pyzed.camera as zcam
-import pyzed.defines as sl
-import pyzed.types as tp
-import pyzed.core as core
-import cv2
-import time
-import math
-import numpy as np
-import pickle
-
-
 def main():
+    import pyzed.camera as zcam
+    import pyzed.defines as sl
+    import pyzed.types as tp
+    import pyzed.core as core
+    import time
+    import pickle
+    import numpy as np
+    import cv2
     # Create a PyZEDCamera object
     zed = zcam.PyZEDCamera()
 
@@ -122,5 +119,40 @@ def merge_images(data,depth):
         print('image capture settings wrong')
         return None
 
-if __name__ == "__main__":
-    main()
+def load_and_display(filename):
+    import pickle
+    import numpy as np
+    from matplotlib import pyplot as plt #note there is an opencv image viewing alternative called imshow and waitkey
+
+    fig, ax = plt.subplots()
+    image = pickle.load( open( filename, "rb" ) )
+    ax.imshow(image)
+    plt.show()
+
+def load_and_merge(num):
+    import time
+    import pickle
+
+    # constructing filename
+    filename_rgb = 'image_rgb{}.pickle'.format(num)
+    filename_depth = 'image_depth{}.pickle'.format(num)
+
+    #loading from file
+    image_rgb = pickle.load( open( filename_rgb, "rb" ) )
+    image_depth = pickle.load( open( filename_depth, "rb" ) )
+
+    #timing merge operation
+    start_time=time.time()
+    merged = merge_images(image_rgb,image_depth)
+    elapsed_time=time.time()-start_time
+
+    print('merge time taken = {}'.format(elapsed_time))
+
+    return elapsed_time
+
+# main()
+# load_and_display("image_depth0.pickle")
+
+import statistics
+times = [load_and_merge(i) for i in range(20)]
+print('avg time: {0:.4f}s'.format(statistics.mean(times)))
