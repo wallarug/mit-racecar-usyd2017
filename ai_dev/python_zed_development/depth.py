@@ -6,6 +6,7 @@ import cv2
 import time
 import math
 import numpy as np
+import pickle
 
 
 def main():
@@ -43,11 +44,12 @@ def main():
             print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
             #convert to arrays
-            # data=image.get_data()
+            data=image.get_data()
             depth_data=depth_for_display.get_data()
 
             print('image:')
-            print(data.shape)
+            data_shape=data.shape
+            print(data_shape)
             # print(data)
 
             print('depth:')
@@ -61,7 +63,7 @@ def main():
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
 
-            if data.shape == depth_data.shape:            
+            if data_shape == depth_shape:
                 for row in range(depth_shape[0]):
                     for col in range(depth_shape[1]):
                         # join the rgb data with the depth data
@@ -69,6 +71,9 @@ def main():
                 print('new data for neural network')
                 print(depth_data.shape)
                 print(depth_data)
+
+                # save the pickle
+                pickle.dump(depth_data,'depth.pickle')
             else:
                 print('image capture settings wrong')
         else:
