@@ -87,24 +87,13 @@ def merge_images(data,depth):
 
     # Merge the depth and rgb image into one.
     if data_shape == depth_shape:
-        output_data=[]
         for row in range(depth_shape[0]):
-            output_data.append([])
             for col in range(depth_shape[1]):
                 # join the rgb data with the depth data
-
-                # Create the pixel to output
-                pixel=[
-                    data[row][col][0], #keep the first 3 values of the rgb data
-                    data[row][col][1],
-                    data[row][col][2],
-                    depth[row][col][0] #keep only the first value out of 4 depth values
-                    ]
-
                 # output data is: red, green, blue, depth
-                output_data[row].append(pixel)
+                data[row][col][3]=depth[row][col][0] #keep only the first value out of 4 depth values
 
-        return output_data
+        return data
     else:
         #images are different sizes and could not be merged
         print('image capture settings wrong')
