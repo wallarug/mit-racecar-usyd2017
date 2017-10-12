@@ -90,7 +90,6 @@ def main():
                 elapsed_time=time.time()-start_time
 
                 print('new data for neural network')
-                print(output_data.shape)
                 print('time taken = {}'.format(elapsed_time))
 
                 # save the pickle
