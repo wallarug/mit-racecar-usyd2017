@@ -27,6 +27,10 @@ if joycount < 1:
 j = pygame.joystick.Joystick(0)
 j.init()
 
+# joystick static storage setup
+axes = [0] * j.get_numaxes()
+buts = [0] * j.get_numbuttons()
+
 # display which joystick is being used
 print("You are using the {0} controller.".format(j.get_name))
 
@@ -36,8 +40,23 @@ try:
 
         output = ""
 
-        for i in range(j.numaxes()):
-            output += "axis {0} {1}".format(i, j.get_axis(i))
+        # get axis values and store them in static storage
+        #  for this exact moment in time.
+        for i in range(j.get_numaxes()):
+            axes[i] = j.get_axis(i)
+            output += "axis {0} {1}\n".format(i, axes[i])
+
+        # get button values and store them in static storage
+        #  for this exact moment in time.
+        for i in range(j.get_numbuttons()):
+            buts[i] = j.get_button(i)
+            output += "button {0} {1}\n".format(i, buts[i])
+
+        # display the axis
+        print(output)
+
+        # set a polling period (~10 polls / second = 0.1)
+        sleep(0.1)
 
 
 except KeyboardInterrupt:
