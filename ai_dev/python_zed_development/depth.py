@@ -1,23 +1,3 @@
-########################################################################
-#
-# Copyright (c) 2017, STEREOLABS.
-#
-# All rights reserved.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#
-########################################################################
-
 import pyzed.camera as zcam
 import pyzed.defines as sl
 import pyzed.types as tp
@@ -66,15 +46,14 @@ def main():
             # data=image.get_data()
             depth_data=depth_for_display.get_data()
 
-            # print('image:')
-            # print(data.shape)
+            print('image:')
+            print(data.shape)
             # print(data)
 
             print('depth:')
-            print(depth_data.shape)
-            print(depth_data[0])
-
-
+            depth_shape=depth_data.shape
+            print(depth_shape)
+            # print(depth_data)
 
             # Display the images on screen
             # cv2.imshow("ZED", data)
@@ -82,6 +61,16 @@ def main():
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
 
+            if data.shape == depth_data.shape:            
+                for row in range(depth_shape[0]):
+                    for col in range(depth_shape[1]):
+                        # join the rgb data with the depth data
+                        depth_data=data[row][col][0:2]+depth_data[row][col][0]
+                print('new data for neural network')
+                print(depth_data.shape)
+                print(depth_data)
+            else:
+                print('image capture settings wrong')
         else:
             print('image collection failed')
         # Increment the loop
