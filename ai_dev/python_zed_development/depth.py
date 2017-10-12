@@ -71,8 +71,8 @@ def main():
             print(data)
             
             print('depth:')
-            print(depth_for_display.shape)
-            print(depth_for_display)
+            print(depth_data.shape)
+            print(depth_data)
 
             cv2.imshow("ZED", data)
             cv2.waitKey(0)
