@@ -68,20 +68,17 @@ def main():
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
 
-            pygame.event.pump() # JOYSTICK - keep everything current
+            # JOYSTICK
+            pygame.event.pump() # keep everything current
             throttle = j.get_axis(0) # left stick
             steering = j.get_axis(4) # right trigger for throttle
             exit_button = j.get_button(9) # Options button exits
 
+            # display joystick data
+            # print('throttle {0:.4f} steering {1:.4f} exit_button {2:.4f}'.format(throttle,steering,exit_button))
             if exit_button:
-                print('Exit button pressed. Stopping data collection')
+                print('Exit button (options) pressed. Stopping data collection')
                 break
-
-            print('throttle {0:.4f} steering {1:.4f} exit_button {2:.4f}'.format(throttle,steering,exit_button))
-
-            # Show image dimensions
-            # print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
-            # print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
 
             #convert to arrays
             data=image.get_data()
@@ -98,18 +95,7 @@ def main():
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
 
-            # Save Images
-            # start_time=time.time()
-            # pickle.dump(data,open( 'image_rgb{}.pickle'.format(i), 'wb' ))
-            # pickle.dump(depth_data,open( 'image_depth{}.pickle'.format(i), 'wb' ))
-            # elapsed_time=time.time()-start_time
-            # print('pickle time taken = {}'.format(elapsed_time))
-
-            # Merge images
-            # start_time=time.time()
             merged = merge_images(data,depth_data)
-            # elapsed_time=time.time()-start_time
-            # print('merge time taken = {}'.format(elapsed_time))
             print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
             # pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
         else:
@@ -117,7 +103,7 @@ def main():
         # Increment the loop
         i = i + 1
 
-    j.exit()
+    j.quit()
     print('Image capture complete')
     print('Total time taken = {}'.format(time.time()-start_time))
     # Close the camera
@@ -145,11 +131,6 @@ def merge_images(data,depth):
         # visually to a human this will look like a transparent photo
         # but this is encoding depth information into the vector for the neural network
         output_data = cv2.merge((red, green, blue, depth1))
-
-#        original form just incase
-#        for row in range(depth_shape[0]):
-#            for col in range(depth_shape[1]):
-#               data[row][col][3]=depth[row][col][0] #keep only the first value out of 4 depth values
 
         return output_data
     else:
