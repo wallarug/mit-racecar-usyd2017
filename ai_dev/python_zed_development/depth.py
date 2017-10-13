@@ -11,6 +11,7 @@ def main():
     from time import sleep
     import sys
 
+    # CONTROLLER SETUP
     # start pygame
     pygame.init()
 
@@ -137,15 +138,44 @@ def merge_images(data,depth):
         print('image capture settings wrong')
         return None
 
-def load_and_display(filename):
+def load_and_display(file_index,mode='both'):
+    filename = get_image_filename(file_index)
     import pickle
     import numpy as np
-    from matplotlib import pyplot as plt #note there is an opencv image viewing alternative called imshow and waitkey
 
-    fig, ax = plt.subplots()
     image = pickle.load( open( filename, "rb" ) )
+    if mode == 'both':
+        display_image(image)
+    else:
+        # Reconstruct the original rgb and depth images from the merged values
+        import cv2
+        red, green, blue, depth = cv2.split(image)
+        if mode == 'rgb':
+            rgb_image = cv2.merge((red,green,blue))
+            display_image(rgb_image)
+        elif mode == 'depth':
+            depth_image = cv2.merge((depth,depth,depth))
+            display_image(depth_image)
+        else:
+            print('Invalid image display mode. Please select from both, rgb or depth.')
+
+def display_image(image):
+    from matplotlib import pyplot as plt #note there is an opencv image viewing alternative called imshow and waitkey
+    fig, ax = plt.subplots()
     ax.imshow(image)
     plt.show()
 
-main()
-# load_and_display("image_depth0.pickle")
+def get_image_filename(index):
+    import os
+    prefix='image_{}_'.format(index)
+    prefixed = [filename for filename in os.listdir('dataset') if filename.startswith(prefix)]
+    if len(prefixed)>0:
+        return 'dataset/'+prefixed[0]
+    else:
+        raise FileNotFoundError("No filename found with index of {}".format(index))
+        return ''
+    
+# main()
+# load_and_display(0)
+# load_and_display(0,'rgb')
+load_and_display(0,'depth')
