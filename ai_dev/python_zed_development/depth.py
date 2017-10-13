@@ -11,7 +11,6 @@ def main():
     from time import sleep
     import sys
 
-    # CONTROLLER SETUP
     # start pygame
     pygame.init()
 
@@ -148,44 +147,5 @@ def load_and_display(filename):
     ax.imshow(image)
     plt.show()
 
-def load_and_merge(num):
-    import time
-    import pickle
-
-    # constructing filename
-    filename_rgb = 'image_rgb{}.pickle'.format(num)
-    filename_depth = 'image_depth{}.pickle'.format(num)
-
-    #loading from file
-    image_rgb = pickle.load( open( filename_rgb, "rb" ) )
-    image_depth = pickle.load( open( filename_depth, "rb" ) )
-
-    #timing merge operation
-    start_time=time.time()
-    merged = merge_images(image_rgb,image_depth)
-    elapsed_time=time.time()-start_time
-
-    print('merge time taken = {}'.format(elapsed_time))
-
-    return elapsed_time
-
-def check_merge():
-    import pickle
-    #loading from file
-    image_rgb = pickle.load( open( 'image_rgb0.pickle', "rb" ) )
-    image_depth = pickle.load( open( 'image_depth0.pickle', "rb" ) )
-    import numpy as np
-    from matplotlib import pyplot as plt #note there is an opencv image viewing alternative called imshow and waitkey
-    merged=merge_images(image_rgb,image_depth)
-
-    fig, ax = plt.subplots()
-    ax.imshow(merged)
-    plt.show()
-
 main()
 # load_and_display("image_depth0.pickle")
-# check_merge()
-
-# import statistics
-# times = [load_and_merge(i) for i in range(20)]
-# print('avg time: {0:.4f}s'.format(statistics.mean(times)))
