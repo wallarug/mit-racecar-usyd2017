@@ -74,8 +74,8 @@ def main():
             exit_button = j.get_button(9) # Options button exits
 
             if exit_button:
-                print('exiting')
-                # break
+                print('Exit button pressed. Stopping data collection')
+                break
 
             print('throttle {0:.4f} steering {1:.4f} exit_button {2:.4f}'.format(throttle,steering,exit_button))
 
@@ -110,7 +110,7 @@ def main():
             merged = merge_images(data,depth_data)
             # elapsed_time=time.time()-start_time
             # print('merge time taken = {}'.format(elapsed_time))
-            print('writing dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering))
+            print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
             # pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
         else:
             print('image collection failed')
