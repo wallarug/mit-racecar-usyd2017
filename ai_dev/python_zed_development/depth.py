@@ -59,16 +59,22 @@ def main():
     depth_for_display = core.PyMat()
 
     print('Current mode: Capture {} images as fast as possible.\nMerge the images.\nSave to pickle files.'.format(num_images))
-    start_time=time.time()
+    total_time=time.time()
     while i < num_images:
+        image_time=time.time()
         # A new image is available if grab() returns PySUCCESS
         if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
+            print('Taking image taken = {}'.format(time.time()-image_time))
+
+            retrieve_time=time.time()
             # Retrieve left image
             zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
+            print('Retrieve taken = {}'.format(time.time()-retrieve_time))
 
             # JOYSTICK
+            joystick_time=time.time()
             pygame.event.pump() # keep everything current
             throttle = (j.get_axis(0)+1)/2 # left stick
             steering = (j.get_axis(4)+1)/2 # right trigger for throttle
@@ -79,15 +85,22 @@ def main():
             if exit_button:
                 print('Exit button (options) pressed. Stopping data collection')
                 break
+            print('joystick_time time taken = {}'.format(time.time()-joystick_time))
 
             #convert to arrays
+
+            get_im_data=time.time()
             data=image.get_data()
             depth_data=depth_for_display.get_data()
+            print('get_im_data time taken = {}'.format(time.time()-get_im_data))
 
             # Convert images to smaller square images
+
+            resize_time=time.time()
             square_image_size=500
             data=cv2.resize(data,(square_image_size,square_image_size))
             depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
+            print('resize_time time taken = {}'.format(time.time()-resize_time))
 
             # Display the images on screen
             # cv2.imshow("ZED", data)
@@ -95,9 +108,16 @@ def main():
             # cv2.imshow("ZED", depth_data)
             # cv2.waitKey(0)
 
+            merge_time=time.time()
             merged = merge_images(data,depth_data)
-            print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
+            print('merge_time time taken = {}'.format(time.time()-merge_time))
+
+
+            write_file=time.time()
+            # print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
             pickle.dump(merged,open( 'dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
+            print('write_file time taken = {}'.format(time.time()-write_file))
+            
         else:
             print('image collection failed')
         # Increment the loop
@@ -105,7 +125,7 @@ def main():
 
     j.quit()
     print('Image capture complete')
-    print('Total time taken = {}'.format(time.time()-start_time))
+    print('Total time taken = {}'.format(time.time()-total_time))
     # Close the camera
     zed.close()
 
@@ -182,8 +202,8 @@ def check_merge():
     ax.imshow(merged)
     plt.show()
 
-main()
-# load_and_display("image_depth0.pickle")
+# main()
+load_and_display("dataset/image_0_0.4227_0.5000.pickle")
 # check_merge()
 
 # import statistics
