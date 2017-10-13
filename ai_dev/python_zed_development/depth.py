@@ -54,7 +54,7 @@ def main():
 
     # Capture 50 images and depth, then stop
     i = 0
-    num_images=60
+    num_images=500
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
@@ -110,7 +110,8 @@ def main():
             merged = merge_images(data,depth_data)
             # elapsed_time=time.time()-start_time
             # print('merge time taken = {}'.format(elapsed_time))
-            pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
+            print('writing dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering))
+            # pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
         else:
             print('image collection failed')
         # Increment the loop
