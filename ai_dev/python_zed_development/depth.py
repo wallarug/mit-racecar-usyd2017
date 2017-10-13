@@ -7,6 +7,34 @@ def main():
     import pickle
     import numpy as np
     import cv2
+    import pygame
+    from time import sleep
+    import sys
+
+    # CONTROLLER SETUP
+    # start pygame
+    pygame.init()
+
+    # count how many joysticks there are...
+    joycount = pygame.joystick.get_count()
+
+    # check that a joystick is actually connected.
+    if joycount < 1:
+        print("No Joystick detected!")
+        sys.exit(0)
+
+    # there is atleast one joystick, let's get it.
+    j = pygame.joystick.Joystick(0)
+    j.init()
+
+    # joystick static storage setup
+    axes = [0] * j.get_numaxes()
+    buts = [0] * j.get_numbuttons()
+
+    # display which joystick is being used
+    print("You are using the {0} controller.".format(j.get_name))
+    # CONTROLLER SETUP COMPLETE
+
     # Create a PyZEDCamera object
     zed = zcam.PyZEDCamera()
 
@@ -40,6 +68,17 @@ def main():
             # Retrieve left depth
             zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
 
+            pygame.event.pump() # JOYSTICK - keep everything current
+            throttle = j.get_axis(0) # left stick
+            steering = j.get_axis(4) # right trigger for throttle
+            exit_button = j.get_button(9) # Options button exits
+
+            if exit_button:
+                print('exiting')
+                # break
+
+            print('throttle {0:.4f} steering {1:.4f} exit_button {2:.4f}'.format(throttle,steering,exit_button))
+
             # Show image dimensions
             # print('depth width {}, depth height {}'.format(image.get_width(),image.get_height()))
             # print('image width {}, image height {}'.format(image.get_width(),image.get_height()))
@@ -71,11 +110,13 @@ def main():
             merged = merge_images(data,depth_data)
             # elapsed_time=time.time()-start_time
             # print('merge time taken = {}'.format(elapsed_time))
-            pickle.dump(merged,open( 'dataset/image_merged{}.pickle'.format(i), 'wb' ))
+            pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
         else:
             print('image collection failed')
         # Increment the loop
         i = i + 1
+
+    j.exit()
     print('Image capture complete')
     print('Total time taken = {}'.format(time.time()-start_time))
     # Close the camera
