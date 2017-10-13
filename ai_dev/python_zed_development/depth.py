@@ -54,7 +54,7 @@ def main():
 
     # Capture 50 images and depth, then stop
     i = 0
-    num_images=500
+    num_images=60
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
@@ -70,8 +70,8 @@ def main():
 
             # JOYSTICK
             pygame.event.pump() # keep everything current
-            throttle = j.get_axis(0) # left stick
-            steering = j.get_axis(4) # right trigger for throttle
+            throttle = (j.get_axis(0)+1)/2 # left stick
+            steering = (j.get_axis(4)+1)/2 # right trigger for throttle
             exit_button = j.get_button(9) # Options button exits
 
             # display joystick data
@@ -97,7 +97,7 @@ def main():
 
             merged = merge_images(data,depth_data)
             print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
-            # pickle.dump(merged,open( 'dataset/image-{0}-{1:.4f}-{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
+            pickle.dump(merged,open( 'dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
         else:
             print('image collection failed')
         # Increment the loop
