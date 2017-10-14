@@ -1,4 +1,4 @@
-def main():
+def main(num_images):
     import pyzed.camera as zcam
     import pyzed.defines as sl
     import pyzed.types as tp
@@ -12,6 +12,8 @@ def main():
     import sys
 
     # CONTROLLER SETUP
+    joystick_events_filename="joystick_events.txt"
+    joystick_events_file= open(joystick_events_filename, "w")
     # start pygame
     pygame.init()
 
@@ -52,9 +54,7 @@ def main():
     runtime_parameters = zcam.PyRuntimeParameters()
     runtime_parameters.sensing_mode = sl.PySENSING_MODE.PySENSING_MODE_STANDARD  # Use STANDARD sensing mode
 
-    # Capture 50 images and depth, then stop
-    i = 0
-    num_images=60
+    i = 0 #counter
     image = core.PyMat()
     depth_for_display = core.PyMat()
 
@@ -74,8 +74,18 @@ def main():
             steering = (j.get_axis(4)+1)/2 # right trigger for throttle
             exit_button = j.get_button(9) # Options button exits
 
-            # display joystick data
-            # print('throttle {0:.4f} steering {1:.4f} exit_button {2:.4f}'.format(throttle,steering,exit_button))
+            # For saving timestamped messages
+            button_message={
+                0 : "driving started",
+                1 : "bad driving",
+                2 : "driving finished"
+            }
+            for button_number, message in button_message.items():
+                if j.get_button(button_number):
+                    saved_string='image_{}_event_{}_time_{}\n'.format(i,message,time.strftime('%X %x %Z'))
+                    print(saved_string)
+                    joystick_events_file.write()
+
             if exit_button:
                 print('Exit button (options) pressed. Stopping data collection')
                 break
@@ -85,15 +95,9 @@ def main():
             depth_data=depth_for_display.get_data()
 
             # Convert images to smaller square images
-            square_image_size=500
-            data=cv2.resize(data,(square_image_size,square_image_size))
-            depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
-
-            # Display the images on screen
-            # cv2.imshow("ZED", data)
-            # cv2.waitKey(0)
-            # cv2.imshow("ZED", depth_data)
-            # cv2.waitKey(0)
+            # square_image_size=500
+            # data=cv2.resize(data,(square_image_size,square_image_size))
+            # depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
 
             merged = merge_images(data,depth_data)
             print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
@@ -106,6 +110,7 @@ def main():
     j.quit()
     print('Image capture complete')
     print('Total time taken = {}'.format(time.time()-start_time))
+    joystick_events_file.close()
     # Close the camera
     zed.close()
 
@@ -174,8 +179,8 @@ def get_image_filename(index):
     else:
         raise FileNotFoundError("No filename found with index of {}".format(index))
         return ''
-    
-# main()
+
+main(60) #capture 60 images
 # load_and_display(0)
 # load_and_display(0,'rgb')
-load_and_display(0,'depth')
+# load_and_display(0,'depth')
