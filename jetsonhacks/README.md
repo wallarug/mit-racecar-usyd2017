@@ -40,8 +40,7 @@ git clone https://github.com/jetsonhacks/installRACECAR.git
 
 ## installSweep ##
 
-This repository contains the setup for the Scane Sense LIDAR SDK and examples.  This script installs all the required software, preparing the car for use.
-
+This repository contains the setup for the Scane Sense LIDAR SDK and examples.  This script installs all the required software, preparing the car for use. This install script has a known bug when the Zed camera script is run.
 GitHub Link: [Jetson Hacks (installSweep)](https://github.com/jetsonhacks/installSweep) 
 
 ```
