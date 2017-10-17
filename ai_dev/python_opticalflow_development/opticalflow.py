@@ -56,32 +56,24 @@ while(1):
         a,b = new.ravel()
         c,d = old.ravel()
         mask = cv2.line(mask, (a,b),(c,d), (103, 209, 51), 6) ## visual line which is connected to the dot point
-        frame = cv2.circle(frame,(a,b),5, (255, 255, 255),2) ## visual circle dot point
-        img = cv2.add(frame, 0) ## adds the dot and line together into an image
+        frame = cv2.circle(frame,(a,b),5, (255, 255, 255), 2) ## visual circle dot point
+        img = cv2.add(frame, 0) ## adds the dot and line together into an image.    img = cv2.add(frame, mask) to show lines. (lines do not dissappear)
 
+#img = cv2.subtract(mask,frame)
     cv2.imshow('frame',img)
     k = cv2.waitKey(30) & 0xff
     if k == 27:
         break
 
 
-#these just show the different images that get saved.
-#    from matplotlib import pyplot as plt
-#    fig, ax = plt.subplots()
-#    ax.imshow(img)
-#    plt.savefig('test.png', bbox_inches='tight')
-#    plt.close()
-#
-#    fig, ax = plt.subplots()
-#    ax.imshow(frame)
-#    plt.savefig('test2.png', bbox_inches='tight')
-#    plt.close()
-
-#    fig, ax = plt.subplots()
-#    ax.imshow(old_gray)
-#    plt.savefig('test.png', bbox_inches='tight')
-#    plt.close()
-
+#Save each image captured
+#TODO: this is currently way too slow!
+    from matplotlib import pyplot as plt
+    fig, ax = plt.subplots()
+    ax.imshow(img)
+    plt.savefig(str(i) + '.png', bbox_inches='tight')
+    plt.close()
+    i = i + 1
 
 ##  OG update the previous frame and previous points
     old_gray = frame_gray.copy()
