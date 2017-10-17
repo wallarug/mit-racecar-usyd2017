@@ -20,7 +20,7 @@ else
 fi
 cd "$DEFAULTDIR"
 
-wget -q https://raw.githubusercontent.com/mit-racecar/racecar/master/racecar.rosinstall -O "$DEFAULTDIR"/.rosinstall
+wget -q https://raw.githubusercontent.com/ingramator/racecar/master/racecar.rosinstall -O "$DEFAULTDIR"/.rosinstall
 
 wstool update
 
