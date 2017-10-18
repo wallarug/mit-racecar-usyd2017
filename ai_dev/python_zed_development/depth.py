@@ -10,14 +10,17 @@ def main(num_images):
     import pygame
     from time import sleep
     import sys
+    import os
 
     # CONTROLLER SETUP
     joystick_events_filename="joystick_events.txt"
     joystick_events_file= open(joystick_events_filename, "w")
     # start pygame
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
+    pygame.init()
     #pygame.init()
-    pygame.joystick.init()
-    pygame.event.init()
+    #pygame.joystick.init()
+    #pygame.event.init()
 
     # count how many joysticks there are...
     joycount = pygame.joystick.get_count() 
