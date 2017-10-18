@@ -4,7 +4,7 @@ This repository includes all the software and documentation required for the Uni
 
 # Slack #
 
-usyd-mitracecarcomp.slack.com
+[usyd-mitracecarcomp.slack.com](https://usyd-mitracecarcomp.slack.com)
 
 # Layout #
 ## docs ##
