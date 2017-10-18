@@ -1,3 +1,4 @@
+
 def main(num_images):
     import pyzed.camera as zcam
     import pyzed.defines as sl
@@ -10,15 +11,20 @@ def main(num_images):
     import pygame
     from time import sleep
     import sys
+    import os
 
     # CONTROLLER SETUP
     joystick_events_filename="joystick_events.txt"
     joystick_events_file= open(joystick_events_filename, "w")
     # start pygame
+    os.environ["SDL_VIDEODRIVER"] = "dummy"
     pygame.init()
+    #pygame.init()
+    #pygame.joystick.init()
+    #pygame.event.init()
 
     # count how many joysticks there are...
-    joycount = pygame.joystick.get_count()
+    joycount = pygame.joystick.get_count() 
 
     # check that a joystick is actually connected.
     if joycount < 1:
@@ -79,7 +85,7 @@ def main(num_images):
                 0 : "driving started",	# A button
                 1 : "driving finished",		# B button
                 2 : "bad driving",	# X button
-                3 : "good driving"	# Y button
+                3 : "good driving",	# Y button
                 9 : "exiting"		# Options button
             }
 
