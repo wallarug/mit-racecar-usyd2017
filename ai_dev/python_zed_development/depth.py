@@ -71,15 +71,18 @@ def main(num_images):
             # JOYSTICK
             pygame.event.pump() # keep everything current
             throttle = (j.get_axis(0)+1)/2 # left stick
-            steering = (j.get_axis(4)+1)/2 # right trigger for throttle
+            steering = (j.get_axis(4)+1)/2 # right stick steering
             exit_button = j.get_button(9) # Options button exits
 
             # For saving timestamped messages
             button_message={
-                0 : "driving started",
-                1 : "bad driving",
-                2 : "driving finished"
+                0 : "driving started",	# A button
+                1 : "driving finished",		# B button
+                2 : "bad driving",	# X button
+                3 : "good driving"	# Y button
+                9 : "exiting"		# Options button
             }
+
             for button_number, message in button_message.items():
                 if j.get_button(button_number):
                     saved_string='image_{}_event_{}_time_{}\n'.format(i,message,time.strftime('%X %x %Z'))
@@ -213,8 +216,8 @@ def save_image(filename,image):
     plt.savefig(filename+'.png', bbox_inches='tight')
     plt.close()
 
-# main(60) #capture 60 images
-save_all_images()
+main(10000) #capture 60 images
+# save_all_images()
 # load_and_display(0)
 # load_and_display(0,'rgb')
 # load_and_display(0,'depth')
