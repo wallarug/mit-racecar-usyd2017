@@ -49,6 +49,7 @@ class JoyTeleop:
         teleop_cfg = rospy.get_param("teleop")
 
         for i in teleop_cfg:
+            print i;
             if i in self.command_list:
                 rospy.logerr("command {} was duplicated".format(i))
                 continue
