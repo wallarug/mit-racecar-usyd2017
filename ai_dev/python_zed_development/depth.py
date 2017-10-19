@@ -76,8 +76,8 @@ def main(num_images):
 
             # JOYSTICK
             pygame.event.pump() # keep everything current
-            throttle = (j.get_axis(0)+1)/2 # left stick
-            steering = (j.get_axis(2)+1)/2 # right stick steering
+            throttle = (j.get_axis(1)+1)/2 # left stick
+            steering = (j.get_axis(3)+1)/2 # right stick steering
             exit_button = j.get_button(9) # Options button exits
 
             # For saving timestamped messages
