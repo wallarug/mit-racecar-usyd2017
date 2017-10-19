@@ -16,9 +16,9 @@ feature_params = dict( maxCorners = 150, # Display #num of frames (Dot Points)
 
 ## using lk of
 # Parameters for lucas kanade optical flow
-lk_params = dict( winSize  = (15,15),  #15 x 15 set pixel dimensions
-                 maxLevel = 2,
-                 criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 0.03))
+lk_params = dict( winSize  = (150,150),  #15 x 15 set pixel dimensions
+                 maxLevel = 22,
+                 criteria = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 25, 0.3))
 
 # Take first frame (initial conditions) and find corners in it
 ret, old_frame = cap.read()
