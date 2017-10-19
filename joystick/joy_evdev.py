@@ -3,7 +3,7 @@ from evdev import InputDevice, categorize, ecodes
 
 #creates object 'gamepad' to store the data
 #you can call it whatever you like
-gamepad = InputDevice('/dev/input/event3')
+gamepad = InputDevice('/dev/input/js0')
 
 
 print('device info')
