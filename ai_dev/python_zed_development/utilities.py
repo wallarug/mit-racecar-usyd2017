@@ -91,7 +91,26 @@ def downsize_all(dataset_folder,newfolder,newsize):
         pickle.dump(merged,open( newfolder + '/' + image_pickle_file , 'wb' ))
         print('resized file: {}'.format(image_pickle_file))
 
+def remove_depth(dataset_folder,newfolder):
+    import cv2
+    import pickle
+    # all files
+    prefix='image_'
+    prefixed = [filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)]
+
+    for image_pickle_file in prefixed:
+        #load files
+        full_image = pickle.load( open( dataset_folder+'/'+image_pickle_file, "rb" ) )
+        #split pixels
+        red, green, blue, depth = cv2.split(full_image)
+        #create rgb
+        output_data = cv2.merge((red, green, blue))
+        #save file
+        pickle.dump(output_data,open( newfolder + '/' + image_pickle_file , 'wb' ))
+        print('new rgb only file: {}'.format(image_pickle_file))
+
 downsize_all('zipped','small',400)
+remove_depth('small','small_rgb')
 
 # save_images('dataset_carpark_6',20)
 # load_and_display(0)
