@@ -81,22 +81,24 @@ def save_image2(filename,image):
 def downsize_all(dataset_folder,newfolder,newsize):
     import cv2
     import pickle
+    import os
     # all files
     prefix='image_'
-    prefixed = [filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)]
+    prefixed = sorted([filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)])
 
     for image_pickle_file in prefixed:
         big_image = pickle.load( open( dataset_folder+'/'+image_pickle_file, "rb" ) )
         small_image = cv2.resize(big_image,(newsize,newsize))
-        pickle.dump(merged,open( newfolder + '/' + image_pickle_file , 'wb' ))
+        pickle.dump(small_image,open( newfolder + '/' + image_pickle_file , 'wb' ))
         print('resized file: {}'.format(image_pickle_file))
 
 def remove_depth(dataset_folder,newfolder):
     import cv2
     import pickle
+    import os
     # all files
     prefix='image_'
-    prefixed = [filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)]
+    prefixed = sorted([filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)])
 
     for image_pickle_file in prefixed:
         #load files
@@ -109,7 +111,7 @@ def remove_depth(dataset_folder,newfolder):
         pickle.dump(output_data,open( newfolder + '/' + image_pickle_file , 'wb' ))
         print('new rgb only file: {}'.format(image_pickle_file))
 
-downsize_all('zipped','small',400)
+downsize_all('zipped','small',250)
 remove_depth('small','small_rgb')
 
 # save_images('dataset_carpark_6',20)
