@@ -36,7 +36,8 @@ def get_image_filename(index):
         raise FileNotFoundError("No filename found with index of {}".format(index))
         return ''
 
-def save_all_images():
+def save_images(dataset_folder, save_frequency):
+    print('Saving images')
     import cv2
     import pickle
     import os
@@ -46,10 +47,13 @@ def save_all_images():
 
     # all files
     prefix='image_'
-    prefixed = [filename for filename in os.listdir('dataset') if filename.startswith(prefix)]
+    prefixed = [filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)]
 
-    for image_pickle_file in prefixed:
-        image = pickle.load( open( 'dataset/'+image_pickle_file, "rb" ) )
+    # only keep some of the files (at a regular interval)
+    sparce_files=[i for i in prefixed if int(i.split('_')[1])%save_frequency==0]
+
+    for image_pickle_file in sparce_files:
+        image = pickle.load( open( dataset_folder+'/'+image_pickle_file, "rb" ) )
 
         red, green, blue, depth = cv2.split(image)
         rgb_image = cv2.merge((red,green,blue))
@@ -59,8 +63,8 @@ def save_all_images():
 
         print('saving image {}'.format(image_name))
 
-        save_image(image_folder+'rgb/'+image_name , rgb_image)
-        save_image(image_folder+'depth/'+image_name , depth_image)
+        save_image2(image_folder+'rgb/'+image_name , rgb_image)
+        save_image2(image_folder+'depth/'+image_name , depth_image)
 
 def save_image(filename,image):
     from matplotlib import pyplot as plt
@@ -69,7 +73,12 @@ def save_image(filename,image):
     plt.savefig(filename+'.png', bbox_inches='tight')
     plt.close()
 
-# save_all_images()
+def save_image2(filename,image):
+    import cv2
+    import numpy as np
+    cv2.imwrite(filename+'.png',image)
+
+save_images('dataset_carpark_6',1)
 # load_and_display(0)
 # load_and_display(0,'rgb')
 # load_and_display(0,'depth')
