@@ -78,7 +78,22 @@ def save_image2(filename,image):
     import numpy as np
     cv2.imwrite(filename+'.png',image)
 
-save_images('dataset_carpark_6',1)
+def downsize_all(dataset_folder,newfolder,newsize):
+    import cv2
+    import pickle
+    # all files
+    prefix='image_'
+    prefixed = [filename for filename in os.listdir(dataset_folder) if filename.startswith(prefix)]
+
+    for image_pickle_file in prefixed:
+        big_image = pickle.load( open( dataset_folder+'/'+image_pickle_file, "rb" ) )
+        small_image = cv2.resize(big_image,(newsize,newsize))
+        pickle.dump(merged,open( newfolder + '/' + image_pickle_file , 'wb' ))
+        print('resized file: {}'.format(image_pickle_file))
+
+downsize_all('zipped','small',400)
+
+# save_images('dataset_carpark_6',20)
 # load_and_display(0)
 # load_and_display(0,'rgb')
 # load_and_display(0,'depth')
