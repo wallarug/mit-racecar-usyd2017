@@ -36,11 +36,24 @@ def download_file_from_google_drive(id, destination):
 
     save_response_content(response, destination)    
 
+
 download_file_from_google_drive('0B7eQasUpbyfZb04zZ3hJa09yRVk', 'z2.zip')
 download_file_from_google_drive('0B7eQasUpbyfZRENtaE9HeEVzVUE', 'z3.zip')
 download_file_from_google_drive('0B7eQasUpbyfZaFYxUXpzanJOQkU', 'z4.zip')
 download_file_from_google_drive('0B7eQasUpbyfZTExzX1BvVkRlczA', 'z5.zip')
 download_file_from_google_drive('0B7eQasUpbyfZT1ExVXY3bFlKWWs', 'z6.zip')
+
+import os
+directory='unzipped'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+import zipfile
+for i in range(2,7):
+    print('unzipping file z{}.zip'.format(i))
+    zip_ref = zipfile.ZipFile('z{}.zip'.format(i), 'r')
+    zip_ref.extractall(directory)
+    zip_ref.close()
 
 # if __name__ == "__main__":
 #     import sys
