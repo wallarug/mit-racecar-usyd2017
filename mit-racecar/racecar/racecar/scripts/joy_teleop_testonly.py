@@ -286,12 +286,12 @@ class JoyTeleop:
                 self.register_action(name, cmd)
 
 
-if __name__ == "__main__":
-    try:
-        rospy.init_node('joy_teleop')
-        jt = JoyTeleop()
-        rospy.spin()
-    except JoyTeleopException:
-        pass
-    except rospy.ROSInterruptException:
-        pass
+    def main_function():
+        try:
+            rospy.init_node('joy_teleop')
+            jt = JoyTeleop()
+            rospy.spin()
+        except JoyTeleopException:
+            pass
+        except rospy.ROSInterruptException:
+            pass
