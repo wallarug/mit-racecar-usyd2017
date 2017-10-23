@@ -1,8 +1,3 @@
-# 2 download_file_from_google_drive('0B7eQasUpbyfZb04zZ3hJa09yRVk', 'z2.zip')
-# 3 download_file_from_google_drive('0B7eQasUpbyfZRENtaE9HeEVzVUE', 'z3.zip')
-# 4 download_file_from_google_drive('0B7eQasUpbyfZaFYxUXpzanJOQkU', 'z4.zip')
-# 5 download_file_from_google_drive('0B7eQasUpbyfZTExzX1BvVkRlczA', 'z5.zip')
-# 6 download_file_from_google_drive('0B7eQasUpbyfZT1ExVXY3bFlKWWs', 'z6.zip')
 # source /home/cs231n/myVE35/bin/activate
 
 import requests
@@ -37,31 +32,19 @@ def download_file_from_google_drive(id, destination):
     save_response_content(response, destination)    
 
 
-download_file_from_google_drive('0B7eQasUpbyfZb04zZ3hJa09yRVk', 'z2.zip')
-download_file_from_google_drive('0B7eQasUpbyfZRENtaE9HeEVzVUE', 'z3.zip')
-download_file_from_google_drive('0B7eQasUpbyfZaFYxUXpzanJOQkU', 'z4.zip')
-download_file_from_google_drive('0B7eQasUpbyfZTExzX1BvVkRlczA', 'z5.zip')
-download_file_from_google_drive('0B7eQasUpbyfZT1ExVXY3bFlKWWs', 'z6.zip')
+# download_file_from_google_drive('0B7eQasUpbyfZb04zZ3hJa09yRVk', 'z2.zip')
+# download_file_from_google_drive('0B7eQasUpbyfZRENtaE9HeEVzVUE', 'z3.zip')
+# download_file_from_google_drive('0B7eQasUpbyfZaFYxUXpzanJOQkU', 'z4.zip')
+# download_file_from_google_drive('0B7eQasUpbyfZTExzX1BvVkRlczA', 'z5.zip')
+# download_file_from_google_drive('0B7eQasUpbyfZT1ExVXY3bFlKWWs', 'z6.zip')
+download_file_from_google_drive('0B0OrXzyTLfIiUGhCQ2xfWHhhWGM', 'full.zip')
 
-import os
-directory='unzipped'
-if not os.path.exists(directory):
-    os.makedirs(directory)
+# import os
+# directory='full_unzipped'
+# if not os.path.exists(directory):
+#     os.makedirs(directory)
 
-import zipfile
-for i in range(2,7):
-    print('unzipping file z{}.zip'.format(i))
-    zip_ref = zipfile.ZipFile('z{}.zip'.format(i), 'r')
-    zip_ref.extractall(directory)
-    zip_ref.close()
-
-# if __name__ == "__main__":
-#     import sys
-#     if len(sys.argv) is not 3:
-#         print "Usage: python google_drive.py drive_file_id destination_file_path"
-#     else:
-#         # TAKE ID FROM SHAREABLE LINK
-#         file_id = sys.argv[1]
-#         # DESTINATION FILE ON YOUR DISK
-#         destination = sys.argv[2]
-#         download_file_from_google_drive(file_id, destination)
+# import zipfile
+# zip_ref = zipfile.ZipFile('half_dataset_stuff/full.zip', 'r')
+# zip_ref.extractall(directory)
+# zip_ref.close()
