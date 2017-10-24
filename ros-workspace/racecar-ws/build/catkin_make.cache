@@ -1,0 +1,2 @@
+racecar/ackermann_cmd_mux:racecar/racecar:vesc/vesc:vesc/vesc_ackermann:vesc/vesc_driver:vesc/vesc_msgs:zed_wrapper
+-DCATKIN_DEVEL_PREFIX=/home/nvidia/Documents/racecar-ws/devel -DCMAKE_INSTALL_PREFIX=/home/nvidia/Documents/racecar-ws/install -G Unix Makefiles
