@@ -13,6 +13,108 @@ import pygame
 import sys
 import os
 
+import rospy
+import genpy.message
+from rospy import ROSException
+import sensor_msgs.msg
+import actionlib
+import rostopic
+import rosservice
+from threading import Thread
+from rosservice import ROSServiceException
+
+
+def listener():
+    topic = "low_level/ackermann_cmd_mux/input/teleop"
+    
+    rospy.init_node('depth_node')
+    rospy.Subscriber('joy', sensor_msgs.msg.Joy, joy_callback)
+
+def joy_callback(data):
+    # parse data for what we want
+    
+        try:
+            for c in self.command_list:
+                if self.match_command(c, data.buttons):
+                    self.run_command(c, data)
+                    # Only run 1 command at a time
+                    break
+        except JoyTeleopException as e:
+            rospy.logerr("error while parsing joystick input: %s", str(e))
+        self.old_buttons = data.buttons    
+    
+
+class Capture:
+    def __init__(self):
+        # Create a PyZEDCamera object
+        self.zed = zcam.PyZEDCamera()
+
+        # Create a PyInitParameters object and set configuration parameters
+        self.init_params = zcam.PyInitParameters()
+        self.init_params.depth_mode = sl.PyDEPTH_MODE.PyDEPTH_MODE_PERFORMANCE  # Use PERFORMANCE depth mode
+        self.init_params.coordinate_units = sl.PyUNIT.PyUNIT_MILLIMETER  # Use milliliter units (for depth measurements)
+
+        # Open the camera
+        err = zed.open(init_params)
+        if err != tp.PyERROR_CODE.PySUCCESS:
+            exit(1)
+
+        # Create and set PyRuntimeParameters after opening the camera
+        self.runtime_parameters = zcam.PyRuntimeParameters()
+        self.runtime_parameters.sensing_mode = sl.PySENSING_MODE.PySENSING_MODE_STANDARD  # Use STANDARD sensing mode
+
+        self.image = core.PyMat()
+        self.depth_for_display = core.PyMat()
+
+        print('Current mode: Capture {} images as fast as possible.\nMerge the images.\nSave to pickle files.'.format(num_images))
+
+    def run(self):
+        i = 0
+        while i < num_images:
+            # JOYSTICK
+            pygame.event.pump() # keep everything current
+            throttle = (j.get_axis(throttle_axis)+1)/2 # left stick
+            steering = (j.get_axis(steering_axis)+1)/2 # right stick steering
+            left_bumper = j.get_button(left_bumper) # left bumper is deadman/ controls whether you are saving
+            exit_button = j.get_button(exit_axis) # Options button exits
+
+            if exit_button:
+                print('Exit button (options) pressed. Stopping data collection')
+                break
+
+            if left_bumper:
+                # A new image is available if grab() returns PySUCCESS
+                if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
+                    # Retrieve left image
+                    zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
+                    # Retrieve left depth
+                    zed.retrieve_image(depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
+
+                    #convert to arrays
+                    data=image.get_data()
+                    depth_data=depth_for_display.get_data()
+
+                    # Convert images to smaller square images
+                    square_image_size=500
+                    data=cv2.resize(data,(square_image_size,square_image_size))
+                    depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
+
+                    merged = merge_images(data,depth_data)
+                    print('writing dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering))
+                    if (i%25==0):
+                        print('{} images have been captured'.format(i))
+
+                    pickle.dump(merged,open( 'dataset/image_{0}_{1:.4f}_{2:.4f}.pickle'.format(i,throttle,steering), 'wb' ))
+                else:
+                    print('image collection failed')
+                # Increment the loop
+                i = i + 1
+
+    def cleanup(self):
+        j.quit()
+        print('Image capture complete')
+        # Close the camera
+        zed.close()
 
 
 def main(num_images):
