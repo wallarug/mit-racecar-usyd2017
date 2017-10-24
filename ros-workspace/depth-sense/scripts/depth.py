@@ -30,6 +30,8 @@ def listener():
     rospy.init_node('depth_node')
     rospy.Subscriber('joy', sensor_msgs.msg.Joy, joy_callback)
 
+    rospy.spin()
+
 def joy_callback(data):
     # parse data for what we want
     
