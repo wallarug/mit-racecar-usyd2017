@@ -1,5 +1,5 @@
 import time
-
+#modified to append timestamp to collected images
 def main(num_images):
     #parameters
     throttle_axis=1
