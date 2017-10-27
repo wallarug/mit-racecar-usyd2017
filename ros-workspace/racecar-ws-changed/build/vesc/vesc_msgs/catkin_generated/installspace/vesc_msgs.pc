@@ -1,8 +1,0 @@
-prefix=/home/nvidia/Documents/racecar-ws/install
-
-Name: vesc_msgs
-Description: Description of vesc_msgs
-Version: 0.0.1
-Cflags: -I/home/nvidia/Documents/racecar-ws/install/include
-Libs: -L/home/nvidia/Documents/racecar-ws/install/lib 
-Requires: std_msgs message_runtime
