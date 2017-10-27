@@ -32,6 +32,35 @@ image = core.PyMat()
 depth_for_display = core.PyMat()
 print('Camera setup complete.')
 
+def merge_images(data,depth):
+    import cv2
+
+    # Store the image dimensions
+    data_shape=data.shape
+    depth_shape=depth.shape
+
+    # Merge the depth and rgb image into one.
+    if data_shape == depth_shape:
+        output_data=[]
+
+        # Split the data (left image) into its r,g,b,alpha form respectively
+        # Where alpha = visual transparency(0-255)
+        red, green, blue, alpha = cv2.split(data)
+
+        # Split the depth image into r,g,b,alpha form
+        depth1, depth2, depth3, depth_alpha = cv2.split(depth)
+
+        # merge the original r,g,b with any of depth (as they are all the same in greyscale)
+        # visually to a human this will look like a transparent photo
+        # but this is encoding depth information into the vector for the neural network
+        output_data = cv2.merge((red, green, blue, depth1))
+
+        return output_data
+    else:
+        #images are different sizes and could not be merged
+        print('image capture settings wrong')
+        return None
+        
 def capture_image(square_image_size):
     # A new image is available if grab() returns PySUCCESS
     if zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
@@ -50,3 +79,4 @@ def capture_image(square_image_size):
         return merge_images(data,depth_data)
     else:
         print('image collection failed')
+        
