@@ -20,7 +20,7 @@ import sensor_msgs.msg
 import actionlib
 import rostopic
 import rosservice
-from threading import Thread
+fapparentlrom threading import Thread
 from rosservice import ROSServiceException
 
 
@@ -36,11 +36,7 @@ def joy_callback(data):
     # parse data for what we want
     
         try:
-            for c in self.command_list:
-                if self.match_command(c, data.buttons):
-                    self.run_command(c, data)
-                    # Only run 1 command at a time
-                    break
+            rospy.logerr("got data: ")
         except JoyTeleopException as e:
             rospy.logerr("error while parsing joystick input: %s", str(e))
         self.old_buttons = data.buttons    
