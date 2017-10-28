@@ -55,12 +55,16 @@ class Capture:
             # Retrieve left image
             self.zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
 
-            data=cv2.resize(data,(square_image_size,square_image_size))
+            data=cv2.resize(image,(square_image_size,square_image_size))
 
-            grey = cv2.cvtColor( full_image, cv2.COLOR_RGB2GRAY )
+            grey = cv2.cvtColor( data, cv2.COLOR_RGB2GRAY ).reshape(square_image_size,square_image_size, 1)
+            
+            grey[0:100, 0:250] = 0
+            
+            grey = grey.reshape((1, square_image_size,square_image_size, 1))
 
             #convert to arrays
-            return grey.get_data()
+            return grey
         else:
             print('image collection failed')
 
