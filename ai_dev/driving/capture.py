@@ -37,7 +37,6 @@ class Capture:
 
         i = 0 #counter
         self.image = core.PyMat()
-        self.depth_for_display = core.PyMat()
         print('[INFO] Capture: Camera setup complete.')
         print('[INFO] Capture: Setting up model...')
 
@@ -55,32 +54,28 @@ class Capture:
         if self.zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
             # Retrieve left image
             self.zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
-            # Retrieve left depth
-            self.zed.retrieve_image(self.depth_for_display,sl.PyVIEW.PyVIEW_DEPTH)
 
             data=cv2.resize(data,(square_image_size,square_image_size))
-            depth_data=cv2.resize(depth_data,(square_image_size,square_image_size))
+
+            grey = cv2.cvtColor( full_image, cv2.COLOR_RGB2GRAY )
 
             #convert to arrays
-            data=self.image.get_data()
-            depth_data=self.depth_for_display.get_data()
-
-            return merge_images(data,depth_data)
+            return grey.get_data()
         else:
             print('image collection failed')
 
     
-    def evaluate_one(self, pickle_file):
+    def evaluate_one(self, pickle_RICK):
         """
         Copied and modified from classify.py
         Evaluates one image based on the given model and returns
         the steering value for moving the servo.
         """
         # import one file...        
-        pickle_file = pickle_file.reshape((1, pickle_file.shape[0], pickle_file.shape[1], pickle_file.shape[2]))
+        pickle_RICK = pickle_RICK.reshape((1, pickle_RICK.shape[0], pickle_RICK.shape[1], pickle_RICK.shape[2]))
 
         # classify the pickled model.
-        class_index = np.argmax(self.model.predict(pickle_file))
+        class_index = np.argmax(self.model.predict(pickle_RICK))
 
         # calculate the steering value...
         steering_value = class_index/30.0
