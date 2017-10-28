@@ -57,11 +57,9 @@ class Capture:
 
             data=cv2.resize(image,(square_image_size,square_image_size))
 
-            grey = cv2.cvtColor( data, cv2.COLOR_RGB2GRAY ).reshape(square_image_size,square_image_size, 1)
+            grey = cv2.cvtColor( data, cv2.COLOR_RGB2GRAY )
             
             grey[0:100, 0:250] = 0
-            
-            grey = grey.reshape((square_image_size,square_image_size))
 
             #convert to arrays
             return grey
