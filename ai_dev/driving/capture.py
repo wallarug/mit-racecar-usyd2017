@@ -80,9 +80,9 @@ class Capture:
         # import one file...        
         data = np.zeros((1, pickle_RICK.shape[0], pickle_RICK.shape[1], 3))
 
-        data[0, :, :, 0] = grey
-        data[0, :, :, 1] = grey
-        data[0, :, :, 2] = grey
+        data[0, :, :, 0] = pickle_RICK
+        data[0, :, :, 1] = pickle_RICK
+        data[0, :, :, 2] = pickle_RICK
 
         # classify the pickled model.
         class_index = np.argmax(self.model.predict(data))
