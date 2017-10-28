@@ -51,17 +51,14 @@ class Capture:
         pickle file.
         """
         # A new image is available if grab() returns PySUCCESS
-        if self.zed.grab(runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
+        if self.zed.grab(self.runtime_parameters) == tp.PyERROR_CODE.PySUCCESS:
             # Retrieve left image
-            self.zed.retrieve_image(image, sl.PyVIEW.PyVIEW_LEFT)
+            self.zed.retrieve_image(self.image, sl.PyVIEW.PyVIEW_LEFT)
+            data = self.image.get_data()
+            data=cv2.resize(data,(square_image_size,square_image_size))
 
-            data=cv2.resize(image,(square_image_size,square_image_size))
-
-            grey = cv2.cvtColor( data, cv2.COLOR_RGB2GRAY ).reshape(square_image_size,square_image_size, 1)
-            
+            grey = cv2.cvtColor( data, cv2.COLOR_RGB2GRAY )
             grey[0:100, 0:250] = 0
-            
-            grey = grey.reshape((1, square_image_size,square_image_size, 1))
 
             #convert to arrays
             return grey
@@ -69,6 +66,10 @@ class Capture:
             print('image collection failed')
 
     
+    # Use it like
+    # img = capture_image(250)
+    # output = evaluate_one(img), the output will be exactly the steering value we are looking for
+    # -Chester
     def evaluate_one(self, pickle_RICK):
         """
         Copied and modified from classify.py
@@ -76,12 +77,16 @@ class Capture:
         the steering value for moving the servo.
         """
         # import one file...        
-        pickle_RICK = pickle_RICK.reshape((1, pickle_RICK.shape[0], pickle_RICK.shape[1], pickle_RICK.shape[2]))
+        data = np.zeros((1, pickle_RICK.shape[0], pickle_RICK.shape[1], 3))
+
+        data[0, :, :, 0] = grey
+        data[0, :, :, 1] = grey
+        data[0, :, :, 2] = grey
 
         # classify the pickled model.
-        class_index = np.argmax(self.model.predict(pickle_RICK))
+        class_index = np.argmax(self.model.predict(data))
 
         # calculate the steering value...
-        steering_value = class_index/30.0
+        steering_value = ( (class_index/5.0) + ((class_index+1)/5.0) ) / 2.0
 
         return steering_value
